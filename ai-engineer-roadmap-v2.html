@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineer Roadmap</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --paper:#F0EEE6;--paper2:#FBFAF5;--ink:#1B1A16;--muted:#6E6A5C;--line:#CFC9BA;
+ --clay:#C15F3C;--slate:#586870;--sage:#6E7A4A;--ochre:#BC8A2A;--blue:#54718A;--mauve:#8A6071;
+ --hub:#23211B;--hub-ink:#F0EEE6;--done:#3F7A5E;
+ --chip:#FBFAF5;--chip-bd:#D8D4C7;--chip-ink:#4a4738;--band:#C15F3C12;--ring-track:#E0DBCC;
+ --navh:56px;
+}
+:root[data-theme="dark"]{
+ --paper:#15140F;--paper2:#211E17;--ink:#ECE7DA;--muted:#9E967F;--line:#37332A;
+ --hub:#0E0D0A;--hub-ink:#ECE7DA;--done:#5B9C7C;
+ --chip:#262219;--chip-bd:#3a352b;--chip-ink:#cfc7b3;--band:#C15F3C26;--ring-track:#332f26;
+}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased;overflow:hidden;
+ background-image:radial-gradient(color-mix(in srgb,var(--line) 70%,transparent) 0.6px,transparent 0.6px);background-size:26px 26px;transition:background-color .25s,color .25s}
+body.scrollable{overflow:auto}
+
+/* NAV */
+.nav{height:var(--navh);display:flex;align-items:center;justify-content:space-between;gap:14px;
+ padding:0 clamp(14px,2.5vw,26px);border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);position:relative;z-index:50}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;white-space:nowrap}
+.logo{display:grid;grid-template-columns:repeat(3,3px);grid-auto-rows:3px;gap:2.4px}
+.logo i{background:var(--clay);border-radius:1px}
+.tabs{display:flex;gap:4px}
+.tab{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 10px;border-radius:8px;white-space:nowrap;transition:background .15s,color .15s}
+.tab:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.tab.active{color:var(--clay);background:var(--band);font-weight:700}
+.tab .tn{font-weight:700;margin-right:5px;opacity:.7}
+.navr{display:flex;align-items:center;gap:14px}
+.ptext{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.ptext b{color:var(--ink)}
+.ring{position:relative;width:38px;height:38px}
+.ring svg{transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9.5px;font-weight:700;color:var(--clay)}
+.tgl{width:34px;height:34px;border:1px solid var(--line);background:var(--paper2);border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background .15s,color .15s}
+.tgl:hover{color:var(--ink);border-color:var(--muted)}
+
+/* APP */
+.app{display:grid;grid-template-columns:1.04fr .96fr;height:calc(100vh - var(--navh))}
+.pane{overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+.pane::-webkit-scrollbar{width:9px}.pane::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;border:3px solid var(--paper)}
+.pane-left{border-right:1px solid var(--line);padding:clamp(20px,3vw,40px) clamp(20px,3vw,42px)}
+.pane-right{position:relative;padding:clamp(18px,2.4vw,30px) clamp(15px,2.2vw,26px)}
+
+/* HERO */
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.eyebrow::before{content:"";width:28px;height:1.5px;background:var(--clay)}
+h1.title{font-family:'Space Grotesk',sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(34px,5.4vw,64px);line-height:.92;letter-spacing:-.03em}
+h1.title em{font-style:normal;color:var(--clay)}
+.sub{font-size:clamp(14px,1.4vw,16px);color:var(--muted);max-width:46ch;margin-top:16px}
+.sub b{color:var(--ink);font-weight:600}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pills span{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:5px 11px;background:color-mix(in srgb,var(--paper2) 70%,transparent)}
+
+/* MAP */
+.map{position:relative;margin:clamp(22px,3vw,34px) 0 8px}
+svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.links path{fill:none;stroke-width:2;opacity:.5;transition:opacity .3s,stroke-width .3s}
+.mgrid{position:relative;z-index:1;display:grid;grid-template-columns:1fr minmax(120px,150px) 1fr;align-items:center;gap:clamp(12px,1.6vw,20px) clamp(14px,2.4vw,40px)}
+.mcol{display:flex;flex-direction:column;gap:clamp(12px,1.6vw,20px)}
+.hub{align-self:center;background:var(--hub);color:var(--hub-ink);border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;box-shadow:0 16px 36px -20px color-mix(in srgb,var(--hub) 80%,transparent);transition:background-color .25s}
+.hub .hx{font-size:15px;opacity:.6;margin-bottom:6px}
+.hub h4{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(13px,1.3vw,16px);line-height:1.04;letter-spacing:-.01em}
+.hub .hs{margin-top:7px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;color:color-mix(in srgb,var(--hub-ink) 65%,transparent);text-transform:uppercase;line-height:1.5}
+.pcard{background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:13px 13px 11px;position:relative;cursor:pointer;--c:var(--slate);
+ transition:transform .2s,box-shadow .2s,border-color .2s,opacity .3s}
+.pcard::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--c)}
+.pcard:hover{transform:translateY(-2px);box-shadow:0 14px 26px -20px #00000045;border-color:var(--c)}
+.pcard .pnum{position:absolute;left:-9px;top:-9px;width:22px;height:22px;border-radius:6px;background:var(--c);color:#fff;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.pcard .pic{font-size:14px;color:var(--c)}
+.pcard h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(13px,1.3vw,15px);margin:5px 0 8px;letter-spacing:-.01em}
+.pcard ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.pcard li{font-size:11.4px;color:color-mix(in srgb,var(--ink) 78%,transparent);padding-left:13px;position:relative;line-height:1.32}
+.pcard li::before{content:"";position:absolute;left:0;top:5.5px;width:5px;height:5px;border-radius:50%;background:var(--c);opacity:.85}
+.pcard .pchk{position:absolute;right:11px;top:11px;width:15px;height:15px;border-radius:50%;border:1.8px solid var(--c);opacity:.4;transition:opacity .2s,background .2s}
+.pcard.full .pchk{opacity:1;background:var(--c)}
+.pcard.full .pchk::after{content:"";position:absolute;left:4px;top:1.5px;width:3px;height:6.5px;border:solid #fff;border-width:0 1.6px 1.6px 0;transform:rotate(45deg)}
+.c-clay{--c:var(--clay)}.c-slate{--c:var(--slate)}.c-sage{--c:var(--sage)}.c-ochre{--c:var(--ochre)}.c-blue{--c:var(--blue)}.c-mauve{--c:var(--mauve)}
+/* live states */
+.map.spy .pcard:not(.is-active){opacity:.42}
+.map.spy .pcard.is-active{opacity:1;box-shadow:0 0 0 2px var(--c),0 16px 30px -20px #00000055}
+.pcard.hot{opacity:1!important;box-shadow:0 0 0 2px var(--c)}
+.map-ctx{margin-top:16px;border-top:1px dashed var(--line);padding-top:12px;font-size:12.5px;color:var(--muted);min-height:34px;line-height:1.4;transition:opacity .2s}
+.map-ctx b{font-family:'Space Grotesk',sans-serif;color:var(--ctx-c,var(--clay));font-weight:600}
+
+/* bottom cards */
+.cards{display:grid;grid-template-columns:1.4fr 1fr;gap:11px;margin-top:clamp(22px,3vw,34px)}
+.gcard{background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:15px 15px 13px}
+.gcard .gi{font-size:15px;margin-bottom:8px;display:inline-flex;color:var(--clay)}
+.gcard h5{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;margin-bottom:5px}
+.gcard p{font-size:11.6px;color:var(--muted);line-height:1.4}
+.gcard .big{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:21px;color:var(--ink);line-height:1}
+.gcard .big span{font-size:12px;color:var(--muted);font-weight:500}
+
+/* RIGHT VIEWS */
+.view{display:none}
+.view.on{display:block}
+.vhead{margin-bottom:18px}
+.vnum{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:#fff;background:var(--ochre);border-radius:6px;padding:3px 8px}
+.view.v-lg .vnum{background:var(--ochre)}
+.vhead h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(20px,2.4vw,30px);letter-spacing:-.02em;margin:11px 0 6px}
+.vsub{font-size:13px;color:var(--muted);max-width:54ch}
+.vpill{float:right;font-family:'Space Mono',monospace;font-size:11px;border:1px solid var(--line);border-radius:20px;padding:6px 12px;color:var(--muted);background:var(--paper2)}
+.vpill b{color:var(--clay)}
+
+.steps{position:relative;margin-top:8px}
+.steps::before{content:"";position:absolute;left:24px;top:22px;bottom:22px;border-left:2px dashed var(--line)}
+.srow{display:grid;grid-template-columns:48px 1fr 34px;gap:10px;align-items:start;padding:11px 8px;border-radius:13px;position:relative;transition:background .15s,opacity .2s}
+.srow:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.srow.related{background:var(--band)}
+.map-dimmed .srow:not(.related){opacity:.4}
+.srow.cur::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--clay)}
+.srail{display:flex;justify-content:center;position:relative;z-index:1}
+.snum{width:30px;height:30px;border-radius:50%;background:var(--paper2);border:2px solid var(--line);color:var(--ink);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s,color .2s}
+.srow.cur .snum{border-color:var(--clay);box-shadow:0 0 0 3px var(--band)}
+.srow.done .snum{background:var(--done);border-color:var(--done);color:#fff}
+.sbody{min-width:0;padding-top:1px}
+.stitle{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;letter-spacing:-.01em;display:block}
+.ssub{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin:2px 0 8px}
+.schips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:'Inter',sans-serif;font-size:12px;color:var(--chip-ink);background:var(--chip);border:1px solid var(--chip-bd);border-radius:8px;padding:5px 9px;cursor:pointer;transition:transform .12s,box-shadow .15s,border-color .15s;line-height:1.2}
+.chip:hover{transform:translateY(-1px);box-shadow:0 6px 13px -8px #00000050;border-color:var(--muted)}
+.chip-static{cursor:default}
+.chip-static:hover{transform:none;box-shadow:none;border-color:var(--chip-bd)}
+.sdone{align-self:center;width:30px;height:30px;border-radius:50%;border:1.8px solid var(--line);background:none;color:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s,color .15s}
+.sdone:hover{border-color:var(--done)}
+.srow.done .sdone{background:var(--done);border-color:var(--done);color:#fff}
+
+/* DRAWER */
+.dov{position:fixed;inset:0;background:#1b1a1650;backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .2s;z-index:120}
+.dov.open{opacity:1;visibility:visible}
+.drw{position:fixed;top:0;right:0;height:100%;width:min(440px,92vw);background:var(--paper2);border-left:1px solid var(--line);
+ box-shadow:-24px 0 60px -30px #00000060;z-index:121;transform:translateX(102%);transition:transform .26s cubic-bezier(.4,0,.2,1);
+ padding:24px clamp(20px,3vw,28px) 96px;overflow-y:auto;display:flex;flex-direction:column}
+.drw.open{transform:translateX(0)}
+.drw-crumb{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre);margin-bottom:9px}
+.drw-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;line-height:1.1;margin-bottom:20px}
+.drw-h{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);margin:0 0 11px;display:flex;align-items:center;gap:8px}
+.drw-h::before{content:"";width:18px;height:1.5px;background:var(--clay)}
+.drw-sec{margin-bottom:24px}
+.datoms{list-style:none;display:flex;flex-direction:column;gap:9px}
+.datoms li{font-size:13.4px;color:color-mix(in srgb,var(--ink) 88%,transparent);padding-left:17px;position:relative;line-height:1.42}
+.datoms li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border-radius:2px;background:var(--ochre);transform:rotate(45deg)}
+.dres{display:block;text-decoration:none;color:inherit;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:8px;transition:border-color .15s,transform .12s}
+.dres:hover{border-color:var(--sage);transform:translateY(-2px)}
+.dres .dt{display:inline-block;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;background:var(--sage);color:#fff;border-radius:4px;padding:2px 6px;margin-right:7px;vertical-align:middle}
+.dres .dl{font-weight:600;font-size:13px}
+.dres .du{display:block;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px}
+.drw-close{position:absolute;left:clamp(20px,3vw,28px);right:clamp(20px,3vw,28px);bottom:22px;background:var(--hub);color:var(--hub-ink);border:0;border-radius:11px;padding:13px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:opacity .15s}
+.drw-close:hover{opacity:.88}
+
+/* grade filter */
+.gradebar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.gb-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.gb-seg{display:inline-flex;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.gb{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12.5px;color:var(--muted);background:none;border:0;border-radius:7px;padding:6px 12px;cursor:pointer;transition:background .15s,color .15s}
+.gb:hover{color:var(--ink)}
+.gb.on{background:var(--clay);color:#fff}
+.gb-count{font-family:'Space Mono',monospace;font-size:11px;color:var(--clay)}
+.gb-legend{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--muted);display:inline-flex;align-items:center;margin-left:auto}
+.gl{width:7px;height:7px;border-radius:50%;display:inline-block;margin:0 4px 0 10px}
+.gl.g1{background:var(--sage)}.gl.g2{background:var(--ochre)}.gl.g3{background:var(--clay)}
+.chip{position:relative;padding-left:19px}
+.chip::before{content:"";position:absolute;left:8px;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:var(--gc,var(--muted))}
+.chip.g1{--gc:var(--sage)}.chip.g2{--gc:var(--ochre)}.chip.g3{--gc:var(--clay)}
+.chip.c-future{opacity:.32}
+.srow.g-out{opacity:.3}
+.pic svg,.gi svg,.hx svg{display:block}
+.pcard .pic{display:inline-flex}
+.nextstep{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--clay);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:transform .12s,box-shadow .15s}
+.nextstep:hover{transform:translateY(-1px);box-shadow:0 10px 22px -12px var(--clay)}
+.nextstep .ns-k{font-family:'Space Mono',monospace;font-size:10px;background:#ffffff2e;padding:2px 6px;border-radius:5px}
+.nextstep .ns-ar{font-family:'Space Mono',monospace;opacity:.8}
+.nextstep[hidden]{display:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--hub);color:var(--hub-ink);padding:9px 16px;border-radius:10px;font-size:12.5px;font-family:'Space Mono',monospace;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s;z-index:200;pointer-events:none;box-shadow:0 12px 30px -16px #000000aa}
+.toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+:focus-visible{outline:2px solid var(--clay);outline-offset:2px;border-radius:8px}
+
+@media (max-width:980px){
+ body{overflow:auto}
+ .nav{height:auto;flex-wrap:wrap;gap:8px;padding:9px 12px}
+ .ptext{display:none}
+ .tab{padding:5px 8px;font-size:11px}
+ .app{grid-template-columns:1fr;height:auto}
+ .pane{overflow:visible}
+ .pane-left{border-right:0;border-bottom:1px solid var(--line)}
+ svg.links{display:none}
+ .mgrid{grid-template-columns:1fr}.hub{order:-1;aspect-ratio:auto;border-radius:18px}
+ .map.spy .pcard:not(.is-active){opacity:1}
+ .cards{grid-template-columns:1fr 1fr}
+ .vpill{float:none;display:inline-block;margin-bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="brand"><span class="logo"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span> AI Engineer Roadmap</div>
+  <nav class="tabs">
+    <button class="tab active" data-go="tools"><span class="tn">01</span>Инструменты по шагам</button>
+    <button class="tab" data-go="lg"><span class="tn">02</span>Глубже: LangGraph</button>
+  </nav>
+  <div class="navr">
+    <span class="ptext">Прогресс: <b id="pdone">0</b> / <b id="ptot">21</b></span>
+    <span class="ring" aria-hidden="true"><svg width="38" height="38"><circle cx="19" cy="19" r="15" fill="none" stroke="var(--ring-track)" stroke-width="3.5"/><circle id="pring" cx="19" cy="19" r="15" fill="none" stroke="var(--clay)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="94.2"/></svg><span class="pct" id="ppct">0%</span></span>
+    <button class="tgl" id="share" aria-label="Поделиться прогрессом по ссылке"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l2-2a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-2 2a5 5 0 007 7l1-1"/></svg></button>
+    <button class="tgl" id="theme" aria-label="Переключить тему">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- LEFT -->
+  <section class="pane pane-left" id="paneLeft">
+    <div class="eyebrow">Путь в AI-инженеры · стек 2026</div>
+    <h1 class="title">Как стать<br><em>AI&nbsp;Engineer</em></h1>
+    <p class="sub">Практический роадмап от основ к созданию <b>надёжных AI-продуктов на базе LLM</b>. Карта слева живая: она следует за шагами справа и кликается.</p>
+    <div class="pills"><span>14 этапов</span><span>6 компетенций</span><span>80+ инструментов</span></div>
+    <button class="nextstep" id="nextStep" type="button" hidden></button>
+
+    <div class="map" id="map">
+      <svg class="links" aria-hidden="true"></svg>
+      <div class="mgrid">
+        <div class="mcol">
+<div class="pcard c-slate" data-side="left" data-pillar="01" data-ctx="Фундамент: код, инфраструктура и инструменты, на которых стоит всё остальное." tabindex="0" role="button" aria-label="Столп 01: Python / бэкенд"><span class="pnum">01</span><span class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg></span><h3>Python / бэкенд</h3><ul><li>FastAPI, async, очереди</li><li>Контракты API и схемы данных</li><li>Docker, CI/CD, одно облако</li><li>Решать неоднозначные задачи</li></ul><span class="pchk" aria-hidden="true"></span></div>
+<div class="pcard c-clay" data-side="left" data-pillar="02" data-ctx="Модели и как ими управлять — сырьё твоих продуктов." tabindex="0" role="button" aria-label="Столп 02: LLM + промпт"><span class="pnum">02</span><span class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span><h3>LLM + промпт</h3><ul><li>Несколько провайдеров, не один</li><li>System prompt = контракт, few-shot</li><li>Function calling, structured output</li><li>Frontier-fluency: новое каждый месяц</li></ul><span class="pchk" aria-hidden="true"></span></div>
+<div class="pcard c-sage" data-side="left" data-pillar="03" data-ctx="Дать модели свежие и приватные знания через поиск." tabindex="0" role="button" aria-label="Столп 03: RAG"><span class="pnum">03</span><span class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-3.6-3.6"/></svg></span><h3>RAG</h3><ul><li>Векторные БД, чанкинг по смыслу</li><li>Hybrid search + reranking</li><li>Когда RAG / fine-tune / контекст</li><li>recall@k, faithfulness, Ragas</li></ul><span class="pchk" aria-hidden="true"></span></div>
+        </div>
+        <div class="hub"><span class="hx"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span><h4>AI Engineer<br>Roadmap</h4><span class="hs">строим продукты<br>поверх LLM</span></div>
+        <div class="mcol">
+<div class="pcard c-ochre" data-side="right" data-pillar="04" data-ctx="Заставить модель действовать: инструменты, циклы, оркестрация." tabindex="0" role="button" aria-label="Столп 04: Агенты"><span class="pnum">04</span><span class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.8 7.7l3.4 8.6M16.2 7.7l-3.4 8.6M8.4 6h7.2"/></svg></span><h3>Агенты</h3><ul><li>LangGraph / CrewAI / SDK</li><li>ReAct, планирование, рефлексия</li><li>Память и управление контекстом</li><li>MCP-интеграция</li></ul><span class="pchk" aria-hidden="true"></span></div>
+<div class="pcard c-blue" data-side="right" data-pillar="05" data-ctx="Измерять качество и видеть, что происходит в проде." tabindex="0" role="button" aria-label="Столп 05: Eval / наблюдаемость"><span class="pnum">05</span><span class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg></span><h3>Eval / наблюдаемость</h3><ul><li>Дизайн evals — топ-сигнал на собесе</li><li>LLM-as-judge, регрессии в CI</li><li>Трейсинг, latency, drift, cost</li><li>Бенчмарки честно: GPQA, SWE-bench</li></ul><span class="pchk" aria-hidden="true"></span></div>
+<div class="pcard c-mauve" data-side="right" data-pillar="06" data-ctx="Сделать систему безопасной, дешёвой и надёжной." tabindex="0" role="button" aria-label="Столп 06: Продакшн"><span class="pnum">06</span><span class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.2-7 9-4-.8-7-4.4-7-9V6z"/></svg></span><h3>Продакшн</h3><ul><li>Cost routing + prompt caching</li><li>OWASP LLM01–LLM10</li><li>Ретраи, фолбэки, идемпотентность</li><li>Кросс-функциональная работа</li></ul><span class="pchk" aria-hidden="true"></span></div>
+        </div>
+      </div>
+      <div class="map-ctx" id="mapCtx">Наведи или кликни столп — подсветит связанные шаги. При прокрутке справа карта сама показывает, где ты.</div>
+    </div>
+
+    <div class="cards">
+      <div class="gcard"><span class="gi"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4"/></svg></span><h5>Цель роадмапа</h5><p>Научиться проектировать, собирать и поддерживать системные AI-продукты, которые решают реальные задачи и держатся в проде.</p></div>
+      <div class="gcard"><span class="gi"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 6-7"/><path d="M16 8h4v4"/></svg></span><h5>Уровень</h5><p>От новичка до уверенного инженера, который выкатывает надёжные системы в прод.</p></div>
+    </div>
+  </section>
+
+  <!-- RIGHT -->
+  <section class="pane pane-right" id="paneRight">
+    <div class="gradebar">
+      <span class="gb-label">Грейд</span>
+      <div class="gb-seg" id="gbSeg" role="group" aria-label="Фильтр по грейду">
+        <button class="gb on" type="button" data-grade="0" aria-pressed="true">Все</button>
+        <button class="gb" type="button" data-grade="1" aria-pressed="false">Junior</button>
+        <button class="gb" type="button" data-grade="2" aria-pressed="false">Middle</button>
+        <button class="gb" type="button" data-grade="3" aria-pressed="false">Senior</button>
+      </div>
+      <span class="gb-count" id="gbCount"></span>
+      <span class="gb-legend"><i class="gl g1"></i>J<i class="gl g2"></i>M<i class="gl g3"></i>S</span>
+    </div>
+    <div class="view v-tools on" id="view-tools">
+      <div class="vhead"><span class="vpill"><b id="pillTools">0</b> / 14 этапов</span><span class="vnum">02</span>
+        <h2>Инструменты по шагам</h2><p class="vsub">Пошаговый путь от знакомства с моделями до продакшн-систем. Клик по чипу — атомарные знания и ресурсы.</p></div>
+      <div class="steps" id="stepsTools">
+<div class="srow" data-pillar="01" data-id="t00"><span class="srail"><span class="snum">00</span></span><span class="sbody"><span class="stitle">Введение</span><span class="ssub">Понятия</span><span class="schips"><button class="chip" type="button">Что такое AI Engineer</button><button class="chip" type="button">AI Engineer vs ML Engineer</button><button class="chip" type="button">AI vs AGI</button><button class="chip" type="button">Роль и зона ответственности</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Введение"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="02" data-id="t01"><span class="srail"><span class="snum">01</span></span><span class="sbody"><span class="stitle">Pre-trained модели</span><span class="ssub">Провайдеры — знать ≥2</span><span class="schips"><button class="chip" type="button">OpenAI</button><button class="chip" type="button">Anthropic Claude</button><button class="chip" type="button">Google Gemini</button><button class="chip" type="button">Mistral</button><button class="chip" type="button">Cohere</button><button class="chip" type="button">Azure AI</button><button class="chip" type="button">AWS Bedrock / SageMaker</button><button class="chip" type="button">Hugging Face</button><button class="chip" type="button">Context length · cut-off · ограничения</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Pre-trained модели"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="02" data-id="t02"><span class="srail"><span class="snum">02</span></span><span class="sbody"><span class="stitle">API провайдера</span><span class="ssub">Платформа и API</span><span class="schips"><button class="chip" type="button">Responses API (+ Chat legacy)</button><button class="chip" type="button">Playground</button><button class="chip" type="button">Подсчёт токенов</button><button class="chip" type="button">Max tokens · лимиты</button><button class="chip" type="button">Pricing</button><button class="chip" type="button">Fine-tuning (базово)</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: API провайдера"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="02" data-id="t03"><span class="srail"><span class="snum">03</span></span><span class="sbody"><span class="stitle">Prompt Engineering</span><span class="ssub">Промпт как инженерия</span><span class="schips"><button class="chip" type="button">Написание промптов</button><button class="chip" type="button">System prompt</button><button class="chip" type="button">Zero / Few-shot</button><button class="chip" type="button">Output parsing</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Prompt Engineering"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="06" data-id="t04"><span class="srail"><span class="snum">04</span></span><span class="sbody"><span class="stitle">AI Safety</span><span class="ssub">Безопасность и этика</span><span class="schips"><button class="chip" type="button">Prompt injection</button><button class="chip" type="button">Bias &amp; fairness</button><button class="chip" type="button">Security / privacy</button><button class="chip" type="button">Adversarial testing</button><button class="chip" type="button">Moderation API</button><button class="chip" type="button">Constraining I/O</button><button class="chip" type="button">Sensitive info disclosure</button><button class="chip" type="button">Excessive agency / least privilege</button><button class="chip" type="button">Privacy / PII-редакция</button><button class="chip" type="button">Data residency / ZDR</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: AI Safety"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="01" data-id="t05"><span class="srail"><span class="snum">05</span></span><span class="sbody"><span class="stitle">Open-Source AI</span><span class="ssub">Открытые модели и хостинг</span><span class="schips"><button class="chip" type="button">Open vs Closed</button><button class="chip" type="button">Hugging Face Hub</button><button class="chip" type="button">Inference SDK</button><button class="chip" type="button">Transformers.js</button><button class="chip" type="button">Ollama</button><button class="chip" type="button">vLLM</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Open-Source AI"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="03" data-id="t06"><span class="srail"><span class="snum">06</span></span><span class="sbody"><span class="stitle">Embeddings</span><span class="ssub">Эмбеддинги</span><span class="schips"><button class="chip" type="button">Что такое эмбеддинги</button><button class="chip" type="button">Semantic search</button><button class="chip" type="button">Recsys</button><button class="chip" type="button">Classification</button><button class="chip" type="button">OpenAI Embeddings API</button><button class="chip" type="button">Sentence Transformers</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Embeddings"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="03" data-id="t07"><span class="srail"><span class="snum">07</span></span><span class="sbody"><span class="stitle">Vector DB</span><span class="ssub">Выбрать одну</span><span class="schips"><button class="chip" type="button">pgvector</button><button class="chip" type="button">Pinecone</button><button class="chip" type="button">Qdrant</button><button class="chip" type="button">Weaviate</button><button class="chip" type="button">Chroma</button><button class="chip" type="button">FAISS</button><button class="chip" type="button">Indexing · similarity search</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Vector DB"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="03" data-id="t08"><span class="srail"><span class="snum">08</span></span><span class="sbody"><span class="stitle">RAG</span><span class="ssub">RAG — пайплайн</span><span class="schips"><button class="chip" type="button">RAG vs Fine-tuning</button><button class="chip" type="button">Chunking</button><button class="chip" type="button">Retrieval → Generation</button><button class="chip" type="button">Hybrid search</button><button class="chip" type="button">Reranking</button><button class="chip" type="button">LangChain</button><button class="chip" type="button">LlamaIndex</button><button class="chip" type="button">Data ingestion / parsing</button><button class="chip" type="button">Provenance / цитаты</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: RAG"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="t09"><span class="srail"><span class="snum">09</span></span><span class="sbody"><span class="stitle">AI Agents</span><span class="ssub">Агенты → раздел 03</span><span class="schips"><button class="chip" type="button">ReAct prompting</button><button class="chip" type="button">Function calling / Tools</button><button class="chip" type="button">LangGraph</button><button class="chip" type="button">CrewAI / AutoGen</button><button class="chip" type="button">MCP</button><button class="chip" type="button">Память / контекст</button><button class="chip" type="button">Context engineering</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: AI Agents"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="05" data-id="t10"><span class="srail"><span class="snum">10</span></span><span class="sbody"><span class="stitle">Eval &amp;amp; Obs</span><span class="ssub">Оценка и наблюдаемость · топ-сигнал</span><span class="schips"><button class="chip" type="button">Eval-наборы (golden set)</button><button class="chip" type="button">LLM-as-judge</button><button class="chip" type="button">Ragas / DeepEval</button><button class="chip" type="button">Langfuse / LangSmith — трейсинг</button><button class="chip" type="button">Промпт-регрессии в CI</button><button class="chip" type="button">Cost &amp; latency мониторинг</button><button class="chip" type="button">LLMOps: версии / канарейки / rollback</button><button class="chip" type="button">Eval-гейты в CI</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Eval &amp;amp; Obs"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="02" data-id="t11"><span class="srail"><span class="snum">11</span></span><span class="sbody"><span class="stitle">Multimodal</span><span class="ssub">Мультимодальность</span><span class="schips"><button class="chip" type="button">Image gen / understanding</button><button class="chip" type="button">Audio · TTS / STT</button><button class="chip" type="button">Vision API</button><button class="chip" type="button">Whisper API</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Multimodal"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="01" data-id="t12"><span class="srail"><span class="snum">12</span></span><span class="sbody"><span class="stitle">Dev Tools</span><span class="ssub">Рабочий инструмент</span><span class="schips"><button class="chip" type="button">AI-редакторы: Cursor / Claude Code</button><button class="chip" type="button">Code completion: Copilot</button><button class="chip" type="button">Gemini Code Assist / Jules / Antigravity</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Dev Tools"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="06" data-id="t13"><span class="srail"><span class="snum">13</span></span><span class="sbody"><span class="stitle">Capstone</span><span class="ssub">Портфолио — собрать end-to-end</span><span class="schips"><button class="chip" type="button">End-to-end RAG-ассистент</button><button class="chip" type="button">Агент с инструментами (LangGraph)</button><button class="chip" type="button">Свой eval-набор</button><button class="chip" type="button">Деплой + мониторинг + cost</button><button class="chip" type="button">Публичное демо + README</button></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Capstone"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      </div>
+    </div>
+    <div class="view v-lg" id="view-lg">
+      <div class="vhead"><span class="vpill"><b id="pillLg">0</b> / 7 блоков</span><span class="vnum">03</span>
+        <h2>Глубже: LangGraph</h2><p class="vsub">Низкоуровневый рантайм агентов: граф, состояние, чекпойнтинг, память, HITL, прод.</p></div>
+      <div class="steps" id="stepsLg">
+<div class="srow" data-pillar="04" data-id="lA"><span class="srail rail-lg"><span class="snum">A</span></span><span class="sbody"><span class="stitle">Граф</span><span class="ssub">Граф и примитивы</span><span class="schips"><span class="chip chip-static">StateGraph(State)</span><span class="chip chip-static">add_node / add_edge</span><span class="chip chip-static">START / END</span><span class="chip chip-static">Узел = (state) → частичный апдейт</span><span class="chip chip-static">add_conditional_edges</span><span class="chip chip-static">Command (апдейт + переход)</span><span class="chip chip-static">.compile() — валидация</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Граф"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="lB"><span class="srail rail-lg"><span class="snum">B</span></span><span class="sbody"><span class="stitle">Состояние</span><span class="ssub">State и редьюсеры</span><span class="schips"><span class="chip chip-static">State: TypedDict / Pydantic, общий</span><span class="chip chip-static">Reducer: по умолчанию замена</span><span class="chip chip-static">Annotated[list, operator.add]</span><span class="chip chip-static">add_messages / MessagesState</span><span class="chip chip-static">Дизайн схемы — решение №1 (частая причина прод-инцидентов)</span><span class="chip chip-static">Не клади блобы — храни ссылку</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Состояние"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="lC"><span class="srail rail-lg"><span class="snum">C</span></span><span class="sbody"><span class="stitle">Tool-loop</span><span class="ssub">Tool-loop</span><span class="schips"><span class="chip chip-static">llm.bind_tools(tools)</span><span class="chip chip-static">ToolNode</span><span class="chip chip-static">tools_condition</span><span class="chip chip-static">Петля agent→tools→agent, пока есть tool_calls</span><span class="chip chip-static">ReAct-паттерн</span><span class="chip chip-static">recursion_limit / remaining_steps</span><span class="chip chip-static">create_agent (LangChain v1) ← create_react_agent (legacy)</span><span class="chip chip-static">ToolNode v2 + Send — параллельно</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Tool-loop"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="lD"><span class="srail rail-lg"><span class="snum">D</span></span><span class="sbody"><span class="stitle">Чекпойнтинг</span><span class="ssub">Персистентность</span><span class="schips"><span class="chip chip-static">Чекпойнт = снапшот state на super-step</span><span class="chip chip-static">thread_id — изоляция</span><span class="chip chip-static">InMemorySaver (dev)</span><span class="chip chip-static">SqliteSaver (один сервер)</span><span class="chip chip-static">PostgresSaver / Async (прод)</span><span class="chip chip-static">read → execute → write; resume</span><span class="chip chip-static">compile(checkpointer=…)</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Чекпойнтинг"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="lE"><span class="srail rail-lg"><span class="snum">E</span></span><span class="sbody"><span class="stitle">Память</span><span class="ssub">Память — три слоя</span><span class="schips"><span class="chip chip-static">Short-term: state + reducer + checkpointer</span><span class="chip chip-static">Store / BaseStore — long-term</span><span class="chip chip-static">store.put() / store.search()</span><span class="chip chip-static">namespaces, cross-thread</span><span class="chip chip-static">InMemoryStore → AsyncPostgresStore</span><span class="chip chip-static">External: память через tool-узлы</span><span class="chip chip-static">Сначала eval на recall, потом расширяй</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Память"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="lF"><span class="srail rail-lg"><span class="snum">F</span></span><span class="sbody"><span class="stitle">HITL</span><span class="ssub">Human-in-the-loop и time travel</span><span class="schips"><span class="chip chip-static">interrupt() — пауза узла</span><span class="chip chip-static">Command(resume=…)</span><span class="chip chip-static">graph.update_state()</span><span class="chip chip-static">HumanInTheLoopMiddleware(interrupt_on=…)</span><span class="chip chip-static">approve / edit / reject / respond</span><span class="chip chip-static">Не оборачивать interrupt в try/except</span><span class="chip chip-static">Идемпотентность; гейт ДО действия</span><span class="chip chip-static">Time travel: реплей с любого чекпойнта</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: HITL"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="srow" data-pillar="04" data-id="lG"><span class="srail rail-lg"><span class="snum">G</span></span><span class="sbody"><span class="stitle">Прод</span><span class="ssub">Надёжность и прод</span><span class="schips"><span class="chip chip-static">retry_policy на узле</span><span class="chip chip-static">State-level retry: error_count + edge → fallback</span><span class="chip chip-static">asyncio.wait_for — таймаут</span><span class="chip chip-static">stream_mode = updates / values / messages</span><span class="chip chip-static">Subgraphs, fan-out (Send)</span><span class="chip chip-static">Supervisor / multi-agent</span><span class="chip chip-static">LangGraph Platform / Agent Server</span><span class="chip chip-static">LangGraph Studio + LangSmith</span></span></span><button class="sdone" type="button" role="checkbox" aria-checked="false" aria-label="Отметить освоенным: Прод"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- DRAWER -->
+<div class="dov" id="dov"></div>
+<aside class="drw" id="drw" role="dialog" aria-modal="true" aria-labelledby="drwTitle" aria-hidden="true">
+  <div class="drw-crumb" id="drwCrumb"></div>
+  <h3 class="drw-title" id="drwTitle"></h3>
+  <div class="drw-sec"><div class="drw-h">Что нужно знать</div><ul class="datoms" id="drwAtoms"></ul></div>
+  <div class="drw-sec"><div class="drw-h">Ресурсы — где пощупать</div><div id="drwRes"></div></div>
+  <button class="drw-close" id="drwClose">Закрыть</button>
+</aside>
+
+<script>
+(function(){
+var D={
+"Что такое AI Engineer":{a:["Строит продукты поверх готовых LLM, не обучает их с нуля","Стек: API → промпты → RAG → агенты → eval → прод","Ближе к инженерии распределённых систем с вероятностным компонентом"],r:[["GUIDE","swyx — The Rise of the AI Engineer","https://www.latent.space/p/ai-engineer"],["GUIDE","What We Learned from a Year of Building with LLMs","https://applied-llms.org/"]]},
+"AI Engineer vs ML Engineer":{a:["ML Engineer обучает/файнтюнит; AI Engineer интегрирует готовое","ML: PyTorch, тренировочные пайплайны; AI: API, RAG, агенты","Граница размывается; большая доля вакансий — integration/product"],r:[["GUIDE","roadmap.sh — AI Engineer","https://roadmap.sh/ai-engineer"],["GUIDE","Open AI Engineering Roadmap (OSSU)","https://github.com/AgenticAiLabs/Ai-Engineering-Roadmap"]]},
+"AI vs AGI":{a:["AI сегодня — узкие задачи; AGI — гипотетический общий интеллект","Важнее различать реальные возможности и ограничения моделей","Не путай маркетинг с честными бенчмарками"],r:[["DOCS","roadmap.sh — AI Engineer","https://roadmap.sh/ai-engineer"]]},
+"Роль и зона ответственности":{a:["Требования → выбор модели → промпт/RAG → eval → прод","Отвечаешь за надёжность, стоимость и безопасность системы","Кросс-функционально: product, data, стейкхолдеры"],r:[["GUIDE","Anthropic — Building Effective Agents","https://www.anthropic.com/engineering/building-effective-agents"]]},
+"OpenAI":{a:["Флагман general-purpose; Chat Completions + Responses API","Function calling, structured outputs, streaming","Богатая экосистема SDK и инструментов"],r:[["DOCS","OpenAI Platform Docs","https://developers.openai.com/api/docs"],["TOOL","OpenAI Playground","https://platform.openai.com/playground"]]},
+"Anthropic Claude":{a:["Claude (Opus/Sonnet/Haiku); сильны в кодинге и агентах","Большое окно, prompt caching, tool use, computer use","Messages API, поддержка MCP"],r:[["DOCS","Claude Docs","https://docs.claude.com"],["GUIDE","Anthropic — Prompt engineering","https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"],["REPO","Anthropic Cookbook","https://github.com/anthropics/claude-cookbooks"]]},
+"Google Gemini":{a:["Мультимодальность из коробки, очень длинный контекст","API через AI Studio / Vertex AI","Хорош для Google-native стека"],r:[["DOCS","Google AI for Developers","https://ai.google.dev"],["TOOL","Google AI Studio","https://aistudio.google.com"]]},
+"Mistral":{a:["Открытые и коммерческие модели, упор на эффективность","Подходит для self-host и EU-комплаенса","La Plateforme API"],r:[["DOCS","Mistral AI Docs","https://docs.mistral.ai"]]},
+"Cohere":{a:["Фокус на enterprise RAG и эмбеддингах","Command + Embed + сильный Rerank","Удобно для поисковых пайплайнов"],r:[["DOCS","Cohere Docs","https://docs.cohere.com"]]},
+"Azure AI":{a:["OpenAI-модели + open models в Azure-комплаенсе","Azure AI Foundry, приватные деплойменты","Enterprise SLA, региональность данных"],r:[["DOCS","Azure AI Services","https://learn.microsoft.com/azure/ai-services/"]]},
+"AWS Bedrock / SageMaker":{a:["Bedrock — единый API к моделям (Claude, Llama, Titan…)","SageMaker — обучение/деплой кастомных моделей","Knowledge Bases, Guardrails, Agents в Bedrock"],r:[["DOCS","Amazon Bedrock Docs","https://docs.aws.amazon.com/bedrock/"]]},
+"Hugging Face":{a:["Хаб моделей/датасетов, Transformers, Inference Endpoints","Открытые модели: Llama, Mistral, Qwen…","Spaces для демо"],r:[["DOCS","Hugging Face Docs","https://huggingface.co/docs"],["COURSE","HF LLM Course","https://huggingface.co/learn/llm-course"]]},
+"Context length · cut-off · ограничения":{a:["Контекстное окно = сколько токенов влезает","Knowledge cut-off — не знает свежего без поиска","Галлюцинации, лимиты, недетерминизм — проектируй под это"],r:[["DOCS","OpenAI — Models","https://developers.openai.com/api/docs/models"],["DOCS","Claude — Models","https://docs.claude.com/en/docs/about-claude/models/overview"]]},
+"Responses API (+ Chat legacy)":{a:["Responses API — рекомендуемый примитив OpenAI; Chat Completions остаётся как legacy","input + instructions вместо messages; output_text helper","Встроенные tools: web/file search, code interpreter, remote MCP","Stateful через previous_response_id; structured outputs (text.format); streaming"],r:[["DOCS","OpenAI — Text generation (Responses)","https://developers.openai.com/api/docs/guides/text"],["DOCS","Migrate to Responses API","https://developers.openai.com/api/docs/guides/migrate-to-responses"],["REPO","OpenAI Cookbook","https://developers.openai.com/cookbook"]]},
+"Playground":{a:["Тестировать промпты и параметры без кода","Сравнить модели и температуру","Экспорт в код"],r:[["TOOL","OpenAI Playground","https://platform.openai.com/playground"],["TOOL","Anthropic Console","https://console.anthropic.com"],["TOOL","Google AI Studio","https://aistudio.google.com"]]},
+"Подсчёт токенов":{a:["Токен ≈ 4 символа англ.; влияет на цену и лимиты","tiktoken — оценка до запроса","Контролируй длину промпта и истории диалога"],r:[["REPO","tiktoken","https://github.com/openai/tiktoken"],["TOOL","OpenAI Tokenizer","https://platform.openai.com/tokenizer"]]},
+"Max tokens · лимиты":{a:["max_tokens ограничивает длину ответа","Rate limits: RPM / TPM по тарифу","429 → ретраи с экспоненциальным backoff"],r:[["DOCS","OpenAI — Rate limits","https://developers.openai.com/api/docs/guides/rate-limits"]]},
+"Pricing":{a:["Платишь за input и output токены раздельно","Prompt caching и батчи снижают счёт","Считай стоимость на запрос ДО прода"],r:[["DOCS","OpenAI Pricing","https://openai.com/api/pricing/"],["DOCS","Anthropic Pricing","https://www.anthropic.com/pricing"]]},
+"Fine-tuning (базово)":{a:["Дообучение под стиль/формат, не под новые знания","Для applied чаще не нужно — сначала промпт + RAG","LoRA / QLoRA для открытых моделей"],r:[["DOCS","OpenAI — Fine-tuning","https://developers.openai.com/api/docs/guides/fine-tuning"],["COURSE","DeepLearning.AI — Finetuning LLMs","https://www.deeplearning.ai/short-courses/finetuning-large-language-models/"]]},
+"Написание промптов":{a:["Чёткая задача, контекст, формат вывода, примеры","Итерируй и измеряй: с первых промптов держи мини-eval (golden set)","Разбивай сложное на шаги"],r:[["GUIDE","Prompt Engineering Guide","https://www.promptingguide.ai"],["DOCS","Anthropic — Prompt engineering","https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"]]},
+"System prompt":{a:["Задаёт роль, правила, тон, ограничения — это контракт","Стабильнее инструкций в user-сообщении","Версионируй и тестируй как код"],r:[["DOCS","OpenAI — Prompt engineering","https://developers.openai.com/api/docs/guides/prompt-engineering"]]},
+"Zero / Few-shot":{a:["Zero-shot — без примеров; few-shot — 1–5 примеров","Примеры повышают стабильность формата","Следи за длиной — примеры едят токены"],r:[["GUIDE","Prompting Guide — Few-shot","https://www.promptingguide.ai/techniques/fewshot"]]},
+"Output parsing":{a:["Заставь модель отдавать JSON / структуру","Structured outputs / response_format / tool schema","Валидируй (Pydantic) и обрабатывай ошибки парсинга"],r:[["DOCS","OpenAI — Structured Outputs","https://developers.openai.com/api/docs/guides/structured-outputs"],["DOCS","LangChain — Output parsers","https://docs.langchain.com/oss/python/langchain/structured-output"]]},
+"Prompt injection":{a:["Вредоносный ввод перехватывает инструкции (OWASP LLM01)","Особо опасно в RAG/агентах с внешним контентом","Разделяй данные и инструкции; обрабатывай вывод (LLM05)","Ограничивай права инструментов (LLM06 excessive agency)"],r:[["GUIDE","OWASP Top 10 for LLM Apps (LLM01–LLM10)","https://genai.owasp.org/llm-top-10/"],["GUIDE","Prompting Guide — Adversarial","https://www.promptingguide.ai/risks/adversarial"]]},
+"Bias & fairness":{a:["Модели отражают перекосы обучающих данных","Тестируй на чувствительных кейсах","Документируй ограничения для пользователей"],r:[["GUIDE","OWASP GenAI Security","https://genai.owasp.org"]]},
+"Security / privacy":{a:["PII не в логах/промптах; редакция и псевдонимизация на входе","Least privilege инструментов, approval-гейты, аудит вызовов","Vector/embedding poisoning, supply-chain зависимостей","Unbounded consumption: rate/cost abuse, лимиты"],r:[["GUIDE","OWASP Top 10 for LLM Apps","https://genai.owasp.org/llm-top-10/"],["GUIDE","Google — Secure AI Framework (SAIF)","https://saif.google/"]]},
+"Adversarial testing":{a:["Red-teaming: целенаправленно ломаешь систему","Джейлбрейки, инъекции, выманивание данных","Автоматизируй прогоны (garak, promptfoo)"],r:[["REPO","garak — LLM vuln scanner","https://github.com/NVIDIA/garak"],["TOOL","promptfoo","https://www.promptfoo.dev"]]},
+"Moderation API":{a:["Фильтрация недопустимого контента вход/выход","Бесплатный moderation-эндпоинт OpenAI","Дополняй собственными guardrails"],r:[["DOCS","OpenAI — Moderation","https://developers.openai.com/api/docs/guides/moderation"]]},
+"Constraining I/O":{a:["Ограничивай домен, длину и формат ответа","Allow-list инструментов и действий","Валидируй и вход, и выход"],r:[["REPO","NeMo Guardrails","https://github.com/NVIDIA-NeMo/Guardrails"]]},
+"Open vs Closed":{a:["Closed (GPT/Claude/Gemini) — проще и мощнее, но API-зависимость","Open (Llama/Mistral/Qwen) — контроль, приватность, self-host","Выбор по приватности / стоимости / качеству"],r:[["DOCS","Hugging Face — Models","https://huggingface.co/models"],["COURSE","HF — LLM Course","https://huggingface.co/learn/llm-course"]]},
+"Hugging Face Hub":{a:["Поиск моделей по задаче, лицензии, размеру","Model cards, датасеты, Spaces","transformers / huggingface_hub SDK"],r:[["DOCS","HF Hub Docs","https://huggingface.co/docs/hub"]]},
+"Inference SDK":{a:["InferenceClient / Inference Endpoints","Унифицированный вызов open-моделей","Serverless или dedicated"],r:[["DOCS","HF Inference Providers","https://huggingface.co/docs/inference-providers"]]},
+"Transformers.js":{a:["Модели прямо в браузере/Node (WebGPU / WASM)","Без сервера, приватно на клиенте","Для лёгких задач: эмбеддинги, классификация"],r:[["DOCS","Transformers.js","https://huggingface.co/docs/transformers.js"]]},
+"Ollama":{a:["Локальный запуск open-моделей одной командой","OpenAI-совместимый API локально","Идеален для прототипов и приватности"],r:[["TOOL","Ollama","https://ollama.com"],["REPO","Ollama GitHub","https://github.com/ollama/ollama"]]},
+"vLLM":{a:["Высокопроизводительный inference-сервер","PagedAttention, continuous batching","OpenAI-совместимый сервер для прода"],r:[["DOCS","vLLM Docs","https://docs.vllm.ai"]]},
+"Что такое эмбеддинги":{a:["Текст → вектор; близость = смысловая похожесть","Основа semantic search и RAG","Размерность, нормализация, метрика (cosine)"],r:[["GUIDE","Pinecone — Vector embeddings","https://www.pinecone.io/learn/vector-embeddings/"],["DOCS","OpenAI — Embeddings","https://developers.openai.com/api/docs/guides/embeddings"],["REPO","OpenAI Cookbook — embeddings","https://developers.openai.com/cookbook"]]},
+"Semantic search":{a:["Поиск по смыслу, а не по ключевым словам","Эмбеддинг запроса → ближайшие векторы","Гибрид с BM25 поднимает recall"],r:[["GUIDE","SBERT — Semantic Search","https://www.sbert.net/examples/applications/semantic-search/README.html"]]},
+"Recsys":{a:["Эмбеддинги контента → похожие рекомендации","Cold-start через контентные эмбеддинги","Комбинируй с поведенческими сигналами"],r:[["GUIDE","Pinecone Learn","https://www.pinecone.io/learn/"]]},
+"Classification":{a:["Эмбеддинги + лёгкий классификатор (kNN / логрег)","Дешевле, чем дообучать LLM","Zero-shot через similarity"],r:[["DOCS","Sentence Transformers","https://www.sbert.net"]]},
+"OpenAI Embeddings API":{a:["text-embedding-3-small (1536) / 3-large (3072)","Параметр dimensions — можно уменьшать размерность","Следи за max input и метрикой (cosine)","Оценивай на своём домене/языке"],r:[["DOCS","OpenAI — Embeddings","https://developers.openai.com/api/docs/guides/embeddings"]]},
+"Sentence Transformers":{a:["Открытые модели: bge, e5, all-MiniLM","Локально, бесплатно, контролируемо","Fine-tune под домен"],r:[["DOCS","SBERT","https://www.sbert.net"],["TOOL","MTEB Leaderboard","https://huggingface.co/spaces/mteb/leaderboard"]]},
+"pgvector":{a:["Векторы прямо в PostgreSQL","Хорош до единиц млн векторов","HNSW / IVFFlat индексы, знакомый SQL"],r:[["REPO","pgvector","https://github.com/pgvector/pgvector"]]},
+"Pinecone":{a:["Управляемая векторная БД, serverless","Простой старт, фильтры по метаданным","Платно, но без эксплуатации"],r:[["DOCS","Pinecone Docs","https://docs.pinecone.io"],["COURSE","Pinecone Learn","https://www.pinecone.io/learn/"]]},
+"Qdrant":{a:["Open-source на Rust, можно self-host","Богатая фильтрация по payload","Гибрид-поиск, квантизация"],r:[["DOCS","Qdrant Docs","https://qdrant.tech/documentation/"]]},
+"Weaviate":{a:["Open-source, встроенные модули векторизации","Гибридный поиск из коробки","GraphQL-подобный API"],r:[["DOCS","Weaviate Docs","https://docs.weaviate.io/weaviate"]]},
+"Chroma":{a:["Лёгкая локальная БД для прототипов","Минимум настройки, Python-first","Хороша для обучения и MVP"],r:[["DOCS","Chroma Docs","https://docs.trychroma.com"]]},
+"FAISS":{a:["Библиотека similarity search (не сервер)","Очень быстрая: IVF / HNSW / PQ","Сам управляешь хранением и персистом"],r:[["REPO","FAISS","https://github.com/facebookresearch/faiss"]]},
+"Indexing · similarity search":{a:["ANN-индексы: HNSW vs IVFFlat — скорость/точность","Метрики: cosine / dot / L2","recall@k как метрика качества поиска"],r:[["GUIDE","Pinecone — HNSW","https://www.pinecone.io/learn/series/faiss/hnsw/"]]},
+"RAG vs Fine-tuning":{a:["RAG — свежие/частные знания без обучения","Fine-tune — стиль/формат/узкий навык","Часто комбинируют; начинай с RAG"],r:[["GUIDE","Pinecone — RAG","https://www.pinecone.io/learn/retrieval-augmented-generation/"]]},
+"Chunking":{a:["Режь по смысловым границам, не по символам","Размер и overlap влияют на recall","Прикрепляй метаданные к чанкам"],r:[["GUIDE","Pinecone — Chunking strategies","https://www.pinecone.io/learn/chunking-strategies/"]]},
+"Retrieval → Generation":{a:["Запрос → эмбеддинг → поиск → контекст → генерация","Передавай в промпт только релевантное","Цитируй источники, борись с галлюцинациями"],r:[["DOCS","LangChain — RAG tutorial","https://docs.langchain.com/oss/python/langchain/rag"],["REPO","OpenAI Cookbook — RAG","https://developers.openai.com/cookbook"],["COURSE","HF — Open-Source AI Cookbook","https://huggingface.co/learn/cookbook"]]},
+"Hybrid search":{a:["BM25 (лексика) + векторный (смысл)","Лучший recall, чем по отдельности","Слияние результатов (RRF)"],r:[["DOCS","Weaviate — Hybrid search","https://docs.weaviate.io/weaviate/search/hybrid"]]},
+"Reranking":{a:["Reranker (модель/API) пересортировывает топ-k по релевантности","Cross-encoder — один из вариантов реализации","Сильно поднимает точность ответа перед генерацией","Cohere Rerank / bge-reranker / Voyage"],r:[["DOCS","Cohere — Rerank","https://docs.cohere.com/docs/rerank-overview"]]},
+"LangChain":{a:["Абстракции для цепочек, ретриверов, инструментов","Быстрый прототип RAG / агентов","LCEL для композиции"],r:[["DOCS","LangChain (Python)","https://docs.langchain.com/oss/python/langchain"]]},
+"LlamaIndex":{a:["Фокус на индексировании и retrieval для RAG","Коннекторы к данным, продвинутые ретриверы","Хорош для документ-ориентированных задач"],r:[["DOCS","LlamaIndex Docs","https://developers.llamaindex.ai/python/framework/"]]},
+"ReAct prompting":{a:["Чередование Reasoning и Acting (tool calls)","Базовый паттерн tool-loop агентов","Цикл Thought → Action → Observation"],r:[["PAPER","ReAct (Yao et al., 2022)","https://arxiv.org/abs/2210.03629"],["COURSE","HF — Agents Course","https://huggingface.co/learn/agents-course"]]},
+"Function calling / Tools":{a:["Модель возвращает структурированный вызов инструмента","JSON-schema описывает аргументы","Ты исполняешь и возвращаешь результат в диалог"],r:[["DOCS","OpenAI — Function calling","https://developers.openai.com/api/docs/guides/function-calling"],["DOCS","Anthropic — Tool use","https://docs.claude.com/en/docs/build-with-claude/tool-use/overview"],["REPO","OpenAI Cookbook — function calling","https://developers.openai.com/cookbook"]]},
+"LangGraph":{a:["Граф с состоянием для надёжных агентов","Узлы, рёбра, чекпойнтинг, HITL — см. раздел 03","Бери под персистентность / гейты / fan-out"],r:[["DOCS","LangGraph Docs","https://docs.langchain.com/oss/python/langgraph"],["COURSE","Intro to LangGraph","https://academy.langchain.com"]]},
+"CrewAI / AutoGen":{a:["Высокоуровневые мульти-агентные фреймворки","CrewAI — роли/задачи; AutoGen — диалоги агентов","Проще старт, меньше контроля, чем LangGraph"],r:[["DOCS","CrewAI Docs","https://docs.crewai.com"],["DOCS","AutoGen","https://microsoft.github.io/autogen/"]]},
+"MCP":{a:["Открытый протокол: client ↔ server для tools/resources/prompts","Транспорты (stdio, HTTP/SSE), аутентификация, trust boundary","Approval-UX и скоупинг прав инструмента — не «любой клиент»","Песочница исполнения и аудит вызовов"],r:[["DOCS","Model Context Protocol","https://modelcontextprotocol.io/docs/getting-started/intro"]]},
+"Память / контекст":{a:["Short-term (история) vs long-term (факты о юзере)","Управление окном: суммаризация, обрезка","Векторная память через инструменты"],r:[["DOCS","LangGraph — Persistence","https://docs.langchain.com/oss/python/langgraph/persistence"],["COURSE","HF — Context Course","https://huggingface.co/learn/context-course"]]},
+"Image gen / understanding":{a:["Генерация (DALL·E / SD) и понимание (vision)","Промптинг картинок отличается от текста","Мультимодальные модели принимают изображения на вход"],r:[["DOCS","OpenAI — Images","https://developers.openai.com/api/docs/guides/images"],["COURSE","HF — Diffusion Course","https://huggingface.co/learn/diffusion-course"],["TOOL","Google Imagen / Nano Banana","https://deepmind.google/models/gemini-image/"]]},
+"Audio · TTS / STT":{a:["STT — речь в текст; TTS — текст в речь","Реалтайм голосовые агенты","ElevenLabs / OpenAI audio / Whisper"],r:[["DOCS","OpenAI — Audio","https://developers.openai.com/api/docs/guides/audio"],["COURSE","HF — Audio Course","https://huggingface.co/learn/audio-course"]]},
+"Vision API":{a:["Передача изображений в мультимодальную модель","OCR, описание, извлечение данных из документов","Комбинируй с RAG по картинкам"],r:[["DOCS","OpenAI — Vision","https://developers.openai.com/api/docs/guides/vision"],["DOCS","Claude — Vision","https://docs.claude.com/en/docs/build-with-claude/vision"],["REPO","OpenAI Cookbook — vision","https://developers.openai.com/cookbook"]]},
+"Whisper API":{a:["Транскрипция и перевод речи","Open-source модель + API","Хорош для встреч и субтитров"],r:[["REPO","Whisper","https://github.com/openai/whisper"],["DOCS","OpenAI — Speech to text","https://developers.openai.com/api/docs/guides/speech-to-text"],["COURSE","HF — Audio Course","https://huggingface.co/learn/audio-course"]]},
+"AI-редакторы: Cursor / Claude Code":{a:["Агентное редактирование кода в репозитории","Cursor — IDE; Claude Code — терминал/агент","Освой как ежедневный инструмент — это table stakes"],r:[["TOOL","Cursor","https://cursor.com"],["DOCS","Claude Code","https://docs.claude.com/en/docs/claude-code/overview"]]},
+"Code completion: Copilot":{a:["Inline-подсказки в IDE","Чат и агентные режимы","Ускоряет рутину, не заменяет понимание"],r:[["DOCS","GitHub Copilot","https://docs.github.com/copilot"]]},
+"Gemini Code Assist / Jules / Antigravity":{a:["Gemini Code Assist — ассистент в IDE","Jules — асинхронный кодинг-агент Google","Antigravity — agent-first среда разработки"],r:[["DOCS","Gemini Code Assist","https://codeassist.google"],["TOOL","Jules","https://jules.google.com"],["TOOL","Google Antigravity","https://antigravity.google"]]},
+"Context engineering":{a:["Что положить в окно: системка, история, retrieval, инструменты","Суммаризация/обрезка истории, бюджет токенов","Порядок и формат контекста влияют на качество и цену","Отдельная дисциплина 2026, не равна промпт-инжинирингу"],r:[["COURSE","HF — Context Course (для код-агентов)","https://huggingface.co/learn/context-course"],["GUIDE","Anthropic — Effective context engineering","https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"]]},
+"Eval-наборы (golden set)":{a:["Фиксированный набор вход→ожидаемый результат","Прогоняй на каждое изменение промпта/модели","Метрики: точность, формат, отказы","Это №1 сигнал реального опыта на собесе"],r:[["DOCS","OpenAI — Evals","https://developers.openai.com/api/docs/guides/evals"],["REPO","OpenAI Cookbook — Evals","https://developers.openai.com/cookbook/examples/evaluation/getting_started_with_openai_evals"]]},
+"LLM-as-judge":{a:["LLM оценивает ответ по рубрике","Дёшево и масштабируемо для субъективных метрик","Калибруй судью на размеченных примерах","Следи за смещениями (длина, позиция)"],r:[["GUIDE","Ragas — LLM-based metrics","https://docs.ragas.io"],["REPO","OpenAI Cookbook — evaluation","https://developers.openai.com/cookbook"]]},
+"Ragas / DeepEval":{a:["Готовые метрики качества RAG/агентов","faithfulness, answer/context relevancy, recall","Интегрируй в CI как регрессии","DeepEval — pytest-стиль для LLM"],r:[["DOCS","Ragas","https://docs.ragas.io"],["DOCS","DeepEval","https://deepeval.com/"]]},
+"Langfuse / LangSmith — трейсинг":{a:["Трейсинг каждого вызова LLM/инструмента","Видишь промпты, токены, latency, стоимость","Связывай трейсы с eval-наборами","Langfuse — self-host; LangSmith — от LangChain"],r:[["DOCS","Langfuse","https://langfuse.com/docs"],["DOCS","LangSmith","https://docs.langchain.com/langsmith/observability"]]},
+"Промпт-регрессии в CI":{a:["Любое изменение промпта проверяй на golden set","Блокируй merge при падении метрик","Версионируй промпты как код","promptfoo удобно встраивается в пайплайн"],r:[["TOOL","promptfoo","https://www.promptfoo.dev"]]},
+"Cost & latency мониторинг":{a:["Считай cost-per-task и cache hit-rate, не только цену токена","Роутинг дорогая→дешёвая модель по eval/latency/cost (модели актуализируй)","Prompt caching: общий префикс/ключ, TTL 5м/1ч, write дороже read","Алерты на дрейф стоимости и p99 latency"],r:[["DOCS","Anthropic — Prompt caching","https://docs.claude.com/en/docs/build-with-claude/prompt-caching"],["DOCS","Langfuse — cost tracking","https://langfuse.com/docs"]]},
+"End-to-end RAG-ассистент":{a:["Загрузка данных → чанкинг → эмбеддинги → векторная БД","Hybrid search + reranking + генерация с цитатами","FastAPI бэкенд + простой UI","Eval на recall и faithfulness, мониторинг стоимости"],r:[["REPO","OpenAI Cookbook — RAG","https://developers.openai.com/cookbook"],["COURSE","HF — Open-Source AI Cookbook","https://huggingface.co/learn/cookbook"]]},
+"Агент с инструментами (LangGraph)":{a:["StateGraph + ToolNode + tools_condition","PostgresSaver для персистентности, interrupt() для гейтов","2-3 реальных инструмента (поиск, БД, API)","Трейсинг в LangSmith/Langfuse"],r:[["DOCS","LangGraph Docs","https://docs.langchain.com/oss/python/langgraph"],["COURSE","HF — Agents Course","https://huggingface.co/learn/agents-course"]]},
+"Свой eval-набор":{a:["20-50 реальных кейсов с ожидаемым результатом","Смешай простые, краевые и ломающие","Автопрогон + отчёт по метрикам","Покажи на собесе — это сильнейший аргумент"],r:[["REPO","OpenAI Cookbook — Evals","https://developers.openai.com/cookbook"],["DOCS","Ragas","https://docs.ragas.io"]]},
+"Деплой + мониторинг + cost":{a:["Docker + облако/Spaces, секреты вне кода","Логи, трейсинг, алерты на ошибки и стоимость","Ретраи, фолбэки, rate-limit handling","Покажи цифры: latency, cost-per-task"],r:[["TOOL","HF Spaces","https://huggingface.co/spaces"],["DOCS","Langfuse","https://langfuse.com/docs"]]},
+"Публичное демо + README":{a:["Живая ссылка важнее Kaggle-медалей","README: задача, архитектура, метрики, ограничения","Покажи eval-результаты и стоимость","Это то, что просят выносить в топ резюме"],r:[["GUIDE","AI Engineering Roadmap — Capstone","https://github.com/AgenticAiLabs/Ai-Engineering-Roadmap"],["GUIDE","roadmap.sh — AI Engineer projects","https://roadmap.sh/ai-engineer/projects"]]},
+"Sensitive info disclosure":{a:["OWASP LLM02: утечка PII/секретов/системного промпта через вывод","Редакция на входе и фильтрация на выходе","Минимизируй чувствительные данные в контексте","ZDR/enterprise-режимы логирования у вендора"],r:[["GUIDE","OWASP — LLM Top 10","https://genai.owasp.org/llm-top-10/"]]},
+"Excessive agency / least privilege":{a:["OWASP LLM06: у агента слишком много прав/инструментов","Least privilege: минимум тулов и скоупов","Approval-гейты (HITL) на необратимые действия","Аудит вызовов и песочница исполнения"],r:[["GUIDE","OWASP — LLM Top 10","https://genai.owasp.org/llm-top-10/"],["GUIDE","Anthropic — Building Effective Agents","https://www.anthropic.com/engineering/building-effective-agents"]]},
+"Data ingestion / parsing":{a:["Парсинг PDF/HTML/DOCX, OCR сканов, извлечение таблиц","Чистка, дедупликация, нормализация перед чанкингом","Метаданные и provenance к каждому фрагменту","Качество ingestion определяет потолок качества RAG"],r:[["COURSE","HF — Open-Source AI Cookbook (advanced RAG)","https://huggingface.co/learn/cookbook"],["DOCS","LlamaIndex — Loading / parsing","https://developers.llamaindex.ai/python/framework/"]]},
+"Provenance / цитаты":{a:["Возвращай источник и фрагмент, а не только ответ","Цитаты снижают галлюцинации и дают проверяемость","Привязывай ответ к chunk_id / документу","Citation verification на этапе генерации"],r:[["REPO","OpenAI Cookbook — RAG with citations","https://developers.openai.com/cookbook"]]},
+"LLMOps: версии / канарейки / rollback":{a:["Пинни версии моделей и промптов — не «latest»","Канареечный выкат: малый трафик → метрики → раскат","Быстрый rollback при просадке eval/стоимости","Реестр промптов с версионированием"],r:[["DOCS","LangSmith — observability / prompts","https://docs.langchain.com/langsmith/observability"]]},
+"Eval-гейты в CI":{a:["Прогон golden set на каждый PR с промптом/моделью","Блок merge при падении метрик","Регрессии на инъекции и краевые кейсы","Связка трейсов с eval-наборами"],r:[["TOOL","promptfoo — CI evals","https://www.promptfoo.dev"],["DOCS","Ragas","https://docs.ragas.io"]]},
+"Privacy / PII-редакция":{a:["Редакция/псевдонимизация PII на входе в модель","Не логируй сырые промпты с чувствительными данными","Retention-политики и удаление по запросу","Минимизация данных в контексте"],r:[["GUIDE","OWASP — LLM02 Sensitive Info","https://genai.owasp.org/llm-top-10/"]]},
+"Data residency / ZDR":{a:["Где физически обрабатываются и хранятся данные","ZDR / enterprise-режимы логирования у вендора","Региональные деплойменты (Azure/Bedrock/Vertex)","Комплаенс: 152-ФЗ / GDPR / отраслевые требования"],r:[["DOCS","Anthropic — Privacy / data usage","https://docs.claude.com/en/docs/about-claude/usage-policies"]]}
+  };
+var GRADE={".compile() — валидация":3,"AI Engineer vs ML Engineer":1,"AI vs AGI":1,"AI-редакторы: Cursor / Claude Code":1,"AWS Bedrock / SageMaker":2,"Adversarial testing":3,"Annotated[list, operator.add]":3,"Anthropic Claude":1,"Audio · TTS / STT":3,"Azure AI":2,"Bias & fairness":2,"Chroma":1,"Chunking":1,"Classification":2,"Code completion: Copilot":1,"Cohere":2,"Command (апдейт + переход)":3,"Command(resume=…)":3,"Constraining I/O":2,"Context engineering":3,"Context length · cut-off · ограничения":1,"Cost & latency мониторинг":2,"CrewAI / AutoGen":3,"Data ingestion / parsing":3,"Data residency / ZDR":3,"End-to-end RAG-ассистент":2,"Eval-гейты в CI":3,"Eval-наборы (golden set)":2,"Excessive agency / least privilege":3,"External: память через tool-узлы":3,"FAISS":3,"Fine-tuning (базово)":2,"Function calling / Tools":1,"Gemini Code Assist / Jules / Antigravity":2,"Google Gemini":1,"Hugging Face":1,"Hugging Face Hub":1,"HumanInTheLoopMiddleware(interrupt_on=…)":3,"Hybrid search":2,"Image gen / understanding":2,"InMemorySaver (dev)":3,"InMemoryStore → AsyncPostgresStore":3,"Indexing · similarity search":2,"Inference SDK":2,"LLM-as-judge":2,"LLMOps: версии / канарейки / rollback":3,"LangChain":1,"LangGraph":2,"LangGraph Platform / Agent Server":3,"LangGraph Studio + LangSmith":3,"Langfuse / LangSmith — трейсинг":2,"LlamaIndex":2,"MCP":2,"Max tokens · лимиты":1,"Mistral":2,"Moderation API":1,"Ollama":2,"Open vs Closed":1,"OpenAI":1,"OpenAI Embeddings API":1,"Output parsing":1,"Pinecone":1,"Playground":1,"PostgresSaver / Async (прод)":3,"Pricing":1,"Privacy / PII-редакция":3,"Prompt injection":1,"Provenance / цитаты":3,"Qdrant":2,"RAG vs Fine-tuning":2,"Ragas / DeepEval":2,"ReAct prompting":2,"ReAct-паттерн":3,"Recsys":3,"Reducer: по умолчанию замена":3,"Reranking":2,"Responses API (+ Chat legacy)":1,"Retrieval → Generation":1,"START / END":3,"Security / privacy":2,"Semantic search":1,"Sensitive info disclosure":3,"Sentence Transformers":2,"Short-term: state + reducer + checkpointer":3,"SqliteSaver (один сервер)":3,"State-level retry: error_count + edge → fallback":3,"State: TypedDict / Pydantic, общий":3,"StateGraph(State)":3,"Store / BaseStore — long-term":3,"Subgraphs, fan-out (Send)":3,"Supervisor / multi-agent":3,"System prompt":1,"Time travel: реплей с любого чекпойнта":3,"ToolNode":3,"ToolNode v2 + Send — параллельно":3,"Transformers.js":3,"Vision API":2,"Weaviate":2,"Whisper API":2,"Zero / Few-shot":1,"add_conditional_edges":3,"add_messages / MessagesState":3,"add_node / add_edge":3,"approve / edit / reject / respond":3,"asyncio.wait_for — таймаут":3,"compile(checkpointer=…)":3,"create_agent (LangChain v1) ← create_react_agent (legacy)":3,"graph.update_state()":3,"interrupt() — пауза узла":3,"llm.bind_tools(tools)":3,"namespaces, cross-thread":3,"pgvector":1,"read → execute → write; resume":3,"recursion_limit / remaining_steps":3,"retry_policy на узле":3,"store.put() / store.search()":3,"stream_mode = updates / values / messages":3,"thread_id — изоляция":3,"tools_condition":3,"vLLM":3,"Агент с инструментами (LangGraph)":3,"Деплой + мониторинг + cost":3,"Дизайн схемы — решение №1 (частая причина прод-инцидентов)":3,"Идемпотентность; гейт ДО действия":3,"Написание промптов":1,"Не клади блобы — храни ссылку":3,"Не оборачивать interrupt в try/except":3,"Память / контекст":2,"Петля agent→tools→agent, пока есть tool_calls":3,"Подсчёт токенов":1,"Промпт-регрессии в CI":3,"Публичное демо + README":1,"Роль и зона ответственности":1,"Свой eval-набор":2,"Сначала eval на recall, потом расширяй":3,"Узел = (state) → частичный апдейт":3,"Чекпойнт = снапшот state на super-step":3,"Что такое AI Engineer":1,"Что такое эмбеддинги":1};
+var CTX={"01":"Фундамент: код, инфраструктура и инструменты, на которых стоит всё остальное.",
+ "02":"Модели и как ими управлять — сырьё твоих продуктов.",
+ "03":"Дать модели свежие и приватные знания через поиск.",
+ "04":"Заставить модель действовать: инструменты, циклы, оркестрация.",
+ "05":"Измерять качество и видеть, что происходит в проде.",
+ "06":"Сделать систему безопасной, дешёвой и надёжной."};
+var NAMES={"01":"Python / бэкенд","02":"LLM + промпт","03":"RAG","04":"Агенты","05":"Eval / наблюдаемость","06":"Продакшн"};
+
+var paneLeft=document.getElementById('paneLeft'),paneRight=document.getElementById('paneRight'),
+    map=document.getElementById('map'),mapCtx=document.getElementById('mapCtx'),
+    pcards=[].slice.call(document.querySelectorAll('.pcard')),
+    toolRows=[].slice.call(document.querySelectorAll('#stepsTools .srow')),
+    lgRows=[].slice.call(document.querySelectorAll('#stepsLg .srow')),
+    allRows=toolRows.concat(lgRows);
+function pcardBy(p){for(var i=0;i<pcards.length;i++)if(pcards[i].getAttribute('data-pillar')===p)return pcards[i];return null;}
+var isMobile=function(){return window.matchMedia('(max-width:980px)').matches;};
+
+/* ---------- connectors ---------- */
+var NS='http://www.w3.org/2000/svg',svg=map.querySelector('svg.links'),pathByPillar={};
+function accent(el){return getComputedStyle(el).getPropertyValue('--c').trim()||'#586870';}
+function draw(){
+ svg.innerHTML='';pathByPillar={};
+ if(isMobile())return;
+ var hub=map.querySelector('.hub'),m=map.getBoundingClientRect(),h=hub.getBoundingClientRect();
+ svg.setAttribute('viewBox','0 0 '+m.width+' '+m.height);
+ pcards.forEach(function(c){
+  var side=c.getAttribute('data-side'),r=c.getBoundingClientRect(),col=accent(c),
+      y1=(h.top+h.height/2)-m.top,y2=(r.top+r.height/2)-m.top,x1,x2;
+  if(side==='left'){x1=h.left-m.left;x2=r.right-m.left;}else{x1=h.right-m.left;x2=r.left-m.left;}
+  var mx=(x1+x2)/2,p=document.createElementNS(NS,'path');
+  p.setAttribute('d','M '+x1+' '+y1+' C '+mx+' '+y1+', '+mx+' '+y2+', '+x2+' '+y2);
+  p.setAttribute('stroke',col);svg.appendChild(p);
+  pathByPillar[c.getAttribute('data-pillar')]=p;
+ });
+ applyActive();
+}
+var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(draw,120);});
+window.addEventListener('load',draw);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);draw();
+
+/* ---------- active pillar (scroll-spy) ---------- */
+var activePillar=null,spyLock=0;
+function scrollRowIntoView(r){if(isMobile()){r.scrollIntoView({behavior:'smooth',block:'start'});return;}var pr=paneRight.getBoundingClientRect(),rr=r.getBoundingClientRect();paneRight.scrollTo({top:paneRight.scrollTop+(rr.top-pr.top)-14,behavior:'smooth'});}
+function setCtx(p){
+ var c=pcardBy(p);if(!c){mapCtx.innerHTML='Наведи или кликни столп.';return;}
+ mapCtx.style.setProperty('--ctx-c',accent(c));
+ mapCtx.innerHTML='<b>'+NAMES[p]+'.</b> '+(CTX[p]||'');
+}
+function applyActive(){
+ pcards.forEach(function(c){
+  var on=c.getAttribute('data-pillar')===activePillar;
+  c.classList.toggle('is-active',on);
+  var pa=pathByPillar[c.getAttribute('data-pillar')];
+  if(pa){pa.style.opacity=on?'1':'';pa.style.strokeWidth=on?'3.5':'';}
+ });
+}
+function setActive(p){if(p===activePillar)return;activePillar=p;map.classList.add('spy');applyActive();setCtx(p);}
+
+function currentView(){return document.getElementById('view-lg').classList.contains('on')?'lg':'tools';}
+var spyRows=toolRows,visible=[];
+function rebuildSpy(){
+ if(spyObs)spyObs.disconnect();visible=[];
+ spyRows=(currentView()==='lg')?lgRows:toolRows;
+ if(isMobile())return;
+ spyObs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+   var i=visible.indexOf(e.target);
+   if(e.isIntersecting){if(i<0)visible.push(e.target);}else if(i>=0)visible.splice(i,1);
+  });
+  if(!visible.length||Date.now()<spyLock)return;
+  visible.sort(function(a,b){return a.getBoundingClientRect().top-b.getBoundingClientRect().top;});
+  var cur=visible[0];
+  allRows.forEach(function(r){r.classList.remove('cur');});
+  cur.classList.add('cur');
+  setActive(cur.getAttribute('data-pillar'));
+ },{root:paneRight,rootMargin:'-8% 0px -78% 0px',threshold:0});
+ spyRows.forEach(function(r){spyObs.observe(r);});
+}
+var spyObs=null;rebuildSpy();
+
+/* ---------- pillar hover + click (feature 2) ---------- */
+pcards.forEach(function(c){
+ var p=c.getAttribute('data-pillar');
+ function rows(){return (currentView()==='lg'?lgRows:toolRows).filter(function(r){return r.getAttribute('data-pillar')===p;});}
+ c.addEventListener('mouseenter',function(){
+  if(isMobile())return;
+  paneRight.classList.add('map-dimmed');c.classList.add('hot');
+  rows().forEach(function(r){r.classList.add('related');});
+  mapCtx.style.setProperty('--ctx-c',accent(c));mapCtx.innerHTML='<b>'+NAMES[p]+'.</b> '+(CTX[p]||'');
+ });
+ c.addEventListener('mouseleave',function(){
+  paneRight.classList.remove('map-dimmed');c.classList.remove('hot');
+  allRows.forEach(function(r){r.classList.remove('related');});
+  if(activePillar)setCtx(activePillar);
+ });
+ function go(){
+  if(currentView()==='lg'){switchView('tools');}
+  var rs=rows();if(!rs.length)return;
+  spyLock=Date.now()+850;setActive(p);
+  var r=rs[0];scrollRowIntoView(r);
+  r.classList.add('related');setTimeout(function(){r.classList.remove('related');},900);
+ }
+ c.addEventListener('click',go);
+ c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+});
+
+/* ---------- tabs / views ---------- */
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+function setTab(go){tabs.forEach(function(t){t.classList.toggle('active',t.getAttribute('data-go')===go);});}
+function switchView(v){
+ document.getElementById('view-tools').classList.toggle('on',v==='tools');
+ document.getElementById('view-lg').classList.toggle('on',v==='lg');
+ setTab(v);paneRight.scrollTo({top:0});rebuildSpy();
+ activePillar=null;map.classList.remove('spy');applyActive();
+ if(v==='lg'){setActive('04');}
+ allRows.forEach(function(r){r.classList.remove('cur');});
+ applyGrade(curGrade,true);
+}
+tabs.forEach(function(tb){
+ tb.addEventListener('click',function(){
+  switchView(tb.getAttribute('data-go'));
+ });
+});
+
+/* ---------- progress ---------- */
+var RING=94.2;
+function pillarDone(p){
+ var rs=toolRows.filter(function(r){return r.getAttribute('data-pillar')===p;});
+ return rs.length>0 && rs.every(function(r){return r.classList.contains('done');});
+}
+function progress(){
+ var done=allRows.filter(function(r){return r.classList.contains('done');}).length,tot=allRows.length;
+ document.getElementById('pdone').textContent=done;document.getElementById('ptot').textContent=tot;
+ var f=tot?done/tot:0;document.getElementById('pring').setAttribute('stroke-dashoffset',(RING*(1-f)).toFixed(1));
+ document.getElementById('ppct').textContent=Math.round(f*100)+'%';
+ document.getElementById('pillTools').textContent=toolRows.filter(function(r){return r.classList.contains('done');}).length;
+ document.getElementById('pillLg').textContent=lgRows.filter(function(r){return r.classList.contains('done');}).length;
+ pcards.forEach(function(c){c.classList.toggle('full',pillarDone(c.getAttribute('data-pillar')));});
+}
+function toggleDone(row){
+ row.classList.toggle('done');
+ var b=row.querySelector('.sdone');if(b)b.setAttribute('aria-checked',row.classList.contains('done')?'true':'false');
+ progress();syncURL();updateNext();
+}
+
+/* ---------- drawer ---------- */
+var dov=document.getElementById('dov'),drw=document.getElementById('drw'),
+    dCrumb=document.getElementById('drwCrumb'),dTitle=document.getElementById('drwTitle'),
+    dAtoms=document.getElementById('drwAtoms'),dRes=document.getElementById('drwRes'),lastFocus=null;
+function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}}
+function focusables(){return [].slice.call(drw.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])')).filter(function(el){return el.offsetParent!==null;});}
+function openDrawer(key,crumb,opener){
+ var d=D[key];dCrumb.textContent=crumb||'';dTitle.textContent=key;dAtoms.innerHTML='';dRes.innerHTML='';
+ if(!d){var li=document.createElement('li');li.textContent='Материал скоро. Загляни в официальную документацию инструмента.';dAtoms.appendChild(li);}
+ else{
+  d.a.forEach(function(x){var li=document.createElement('li');li.textContent=x;dAtoms.appendChild(li);});
+  d.r.forEach(function(x){var a=document.createElement('a');a.className='dres';a.href=x[2];a.target='_blank';a.rel='noopener';
+   a.innerHTML='<span class="dt">'+x[0]+'</span><span class="dl">'+x[1]+'</span><span class="du">'+host(x[2])+'</span>';dRes.appendChild(a);});
+ }
+ dov.classList.add('open');drw.classList.add('open');drw.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+ drw.scrollTop=0;lastFocus=opener||document.activeElement;document.getElementById('drwClose').focus();
+}
+function closeDrawer(){dov.classList.remove('open');drw.classList.remove('open');drw.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null;}
+dov.addEventListener('click',closeDrawer);
+document.getElementById('drwClose').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&drw.classList.contains('open'))closeDrawer();});
+drw.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var f=focusables();if(!f.length)return;var a=f[0],z=f[f.length-1];
+ if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}});
+
+/* ---------- row interactions ---------- */
+function wireRows(rows){
+ rows.forEach(function(row){
+  var done=row.querySelector('.sdone');
+  done.addEventListener('click',function(e){e.stopPropagation();toggleDone(row);});
+  [].slice.call(row.querySelectorAll('.chip:not(.chip-static)')).forEach(function(ch){
+   ch.addEventListener('click',function(){
+    var key=ch.textContent.trim(),num=row.querySelector('.snum').textContent.trim(),title=row.querySelector('.stitle').textContent.trim();
+    openDrawer(key,(currentView()==='lg'?'03 · ':'02 · ')+num+' '+title,ch);
+   });
+  });
+ });
+}
+wireRows(allRows);
+progress();
+
+/* ---------- theme ---------- */
+document.getElementById('theme').addEventListener('click',function(){
+ var d=document.documentElement.getAttribute('data-theme')==='dark';
+ document.documentElement.setAttribute('data-theme',d?'light':'dark');
+ this.innerHTML=d
+  ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>'
+  :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>';
+ setTimeout(draw,30);
+});
+
+/* ---------- next step (hero) + URL progress ---------- */
+var nextBtn=document.getElementById('nextStep');
+function firstUndone(){
+ for(var i=0;i<toolRows.length;i++)if(!toolRows[i].classList.contains('done'))return toolRows[i];
+ for(var j=0;j<lgRows.length;j++)if(!lgRows[j].classList.contains('done'))return lgRows[j];
+ return null;
+}
+function updateNext(){
+ var r=firstUndone();
+ if(!r){nextBtn.hidden=false;nextBtn.innerHTML='<span class="ns-k">✓</span> Всё пройдено';nextBtn.onclick=null;return;}
+ var num=r.querySelector('.snum').textContent.trim(),title=r.querySelector('.stitle').textContent.trim();
+ nextBtn.hidden=false;
+ nextBtn.innerHTML='Продолжить <span class="ns-k">'+num+'</span> '+title+' <span class="ns-ar">→</span>';
+ nextBtn.onclick=function(){
+  var v=(lgRows.indexOf(r)>=0)?'lg':'tools';
+  if(currentView()!==v)switchView(v);
+  spyLock=Date.now()+850;
+  setTimeout(function(){scrollRowIntoView(r);
+   r.classList.add('related');setTimeout(function(){r.classList.remove('related');},1000);},60);
+ };
+}
+function syncURL(){
+ try{
+  var ids=allRows.filter(function(r){return r.classList.contains('done');}).map(function(r){return r.getAttribute('data-id');});
+  var parts=[];if(ids.length)parts.push('done='+ids.join(','));if(curGrade)parts.push('grade='+curGrade);
+  try{
+   if(parts.length)history.replaceState(null,'','#'+parts.join('&'));
+   else history.replaceState(null,'',location.pathname+location.search);
+  }catch(e){try{if(parts.length)location.hash=parts.join('&');}catch(e2){}}
+ }catch(e){}
+}
+function applyURL(){
+ var h=location.hash||'';var m=h.match(/done=([^&]+)/);
+ if(m){var set={};m[1].split(',').forEach(function(id){set[id]=1;});
+  allRows.forEach(function(r){var id=r.getAttribute('data-id');
+   if(set[id]&&!r.classList.contains('done')){r.classList.add('done');var b=r.querySelector('.sdone');if(b)b.setAttribute('aria-checked','true');}});}
+ var gm=h.match(/grade=([0-3])/);if(gm){applyGrade(parseInt(gm[1],10),true);}
+}
+function toast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('show');},1900);}
+document.getElementById('share').addEventListener('click',function(){
+ syncURL();var url=location.href;
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+  navigator.clipboard.writeText(url).then(function(){toast('Ссылка с прогрессом скопирована');},function(){toast('Скопируй из адресной строки');});
+ }else{
+  try{var ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Ссылка с прогрессом скопирована');}
+  catch(e){toast('Скопируй из адресной строки');}
+ }
+});
+
+/* ---------- grade filter (junior/middle/senior) ---------- */
+var curGrade=0,GNAME={1:"Junior",2:"Middle",3:"Senior"};
+(function tagChips(){
+ [].slice.call(document.querySelectorAll('.chip')).forEach(function(ch){
+  var g=GRADE[ch.textContent.trim()];if(g)ch.classList.add('g'+g);
+ });
+})();
+function rowChips(r){return [].slice.call(r.querySelectorAll('.chip'));}
+function applyGrade(g,silent){
+ curGrade=g;
+ [].slice.call(document.querySelectorAll('.gb')).forEach(function(b){
+  var on=+b.getAttribute('data-grade')===g;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');});
+ allRows.forEach(function(r){
+  var chips=rowChips(r),grades=chips.map(function(c){return GRADE[c.textContent.trim()]||9;});
+  var relevant=(g===0)||grades.some(function(x){return x<=g;});
+  r.classList.toggle('g-out',!relevant);
+  chips.forEach(function(c){var cg=GRADE[c.textContent.trim()]||9;c.classList.toggle('c-future',g!==0&&cg>g);});
+ });
+ var cnt=document.getElementById('gbCount');
+ if(g===0){cnt.textContent='';}
+ else{
+  var view=(currentView()==='lg')?lgRows:toolRows;
+  var steps=view.filter(function(r){return rowChips(r).some(function(c){return (GRADE[c.textContent.trim()]||9)<=g;});}).length;
+  var topics=view.reduce(function(a,r){return a+rowChips(r).filter(function(c){return (GRADE[c.textContent.trim()]||9)<=g;}).length;},0);
+  cnt.textContent=topics?(GNAME[g]+': '+topics+' тем · '+steps+' шагов'):(GNAME[g]+': в этом разделе нет тем для грейда');
+ }
+ if(!silent)syncURL();
+}
+document.getElementById('gbSeg').addEventListener('click',function(e){
+ var b=e.target.closest('.gb');if(!b)return;applyGrade(+b.getAttribute('data-grade'));
+});
+applyGrade(curGrade,true);
+
+applyURL();progress();updateNext();
+})();
+</script>
+</body>
+</html>
