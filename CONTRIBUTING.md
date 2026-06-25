@@ -70,9 +70,6 @@ python3 check-links.py index.html
 python3 -m http.server 8000   # → http://localhost:8000
 ```
 
-## Деплой
-
-GitHub Pages обновляется автоматически при push в ветку `main` (Settings → Pages → Deploy from a branch → `main` / root). Через минуту изменения на `https://gryzb.github.io/ai-engineer-roadmap/`.
 
 ## Поддержание актуальности
 
