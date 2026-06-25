@@ -69,14 +69,6 @@ python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
-## Деплой (GitHub Pages)
-
-1. Файл сайта назван `index.html` и лежит в корне ветки `main`.
-2. **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save**.
-3. Через минуту сайт доступен на `https://gryzb.github.io/ai-engineer-roadmap/`.
-
-> Поле «Add a verified domain» заполнять не нужно — оно только для собственного домена. Для адреса `github.io` достаточно шагов выше.
-
 ## Дисклеймер
 
 - Контент отражает практику и инструменты на **середину 2026 года**; экосистема меняется быстро — проверяйте версии и ссылки.
