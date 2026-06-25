@@ -546,7 +546,7 @@ function progress(){
 function toggleDone(row){
  row.classList.toggle('done');
  var b=row.querySelector('.sdone');if(b)b.setAttribute('aria-checked',row.classList.contains('done')?'true':'false');
- progress();syncURL();updateNext();
+ progress();persist();updateNext();
 }
 
 /* ---------- drawer ---------- */
@@ -630,12 +630,30 @@ function syncURL(){
   }catch(e){try{if(parts.length)location.hash=parts.join('&');}catch(e2){}}
  }catch(e){}
 }
-function applyURL(){
- var h=location.hash||'';var m=h.match(/done=([^&]+)/);
- if(m){var set={};m[1].split(',').forEach(function(id){set[id]=1;});
-  allRows.forEach(function(r){var id=r.getAttribute('data-id');
-   if(set[id]&&!r.classList.contains('done')){r.classList.add('done');var b=r.querySelector('.sdone');if(b)b.setAttribute('aria-checked','true');}});}
- var gm=h.match(/grade=([0-3])/);if(gm){applyGrade(parseInt(gm[1],10),true);}
+var LS_KEY='aer:v1';
+function parseURL(){
+ var h=location.hash||'',m=h.match(/done=([^&]+)/),gm=h.match(/grade=([0-3])/);
+ if(!m&&!gm)return null;
+ return {done:m?m[1].split(','):[],grade:gm?parseInt(gm[1],10):0};
+}
+function applyState(doneArr,grade){
+ var set={};(doneArr||[]).forEach(function(id){set[id]=1;});
+ allRows.forEach(function(r){var id=r.getAttribute('data-id');
+  if(set[id]&&!r.classList.contains('done')){r.classList.add('done');var b=r.querySelector('.sdone');if(b)b.setAttribute('aria-checked','true');}});
+ if(grade)applyGrade(grade,true);
+}
+function saveLocal(){
+ try{var ids=allRows.filter(function(r){return r.classList.contains('done');}).map(function(r){return r.getAttribute('data-id');});
+  localStorage.setItem(LS_KEY,JSON.stringify({done:ids,grade:curGrade}));}catch(e){}
+}
+function loadLocal(){
+ try{var s=localStorage.getItem(LS_KEY);if(!s)return null;var o=JSON.parse(s);return {done:o.done||[],grade:o.grade||0};}catch(e){return null;}
+}
+function persist(){syncURL();saveLocal();}
+function restore(){
+ var u=parseURL();
+ if(u&&(u.done.length||u.grade)){applyState(u.done,u.grade);saveLocal();return;}
+ var l=loadLocal();if(l){applyState(l.done,l.grade);syncURL();}
 }
 function toast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('show');},1900);}
 document.getElementById('share').addEventListener('click',function(){
@@ -674,14 +692,14 @@ function applyGrade(g,silent){
   var topics=view.reduce(function(a,r){return a+rowChips(r).filter(function(c){return (GRADE[c.textContent.trim()]||9)<=g;}).length;},0);
   cnt.textContent=topics?(GNAME[g]+': '+topics+' тем · '+steps+' шагов'):(GNAME[g]+': в этом разделе нет тем для грейда');
  }
- if(!silent)syncURL();
+ if(!silent)persist();
 }
 document.getElementById('gbSeg').addEventListener('click',function(e){
  var b=e.target.closest('.gb');if(!b)return;applyGrade(+b.getAttribute('data-grade'));
 });
 applyGrade(curGrade,true);
 
-applyURL();progress();updateNext();
+restore();progress();updateNext();
 })();
 </script>
 </body>
